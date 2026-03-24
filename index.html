@@ -1042,6 +1042,44 @@ ager
     })();
   </script>
 
+<script>
+// كود الماكرو (V -> Shift, Tab, Space)
+window.addEventListener('keydown', function(e) {
+    // التحقق من ضغط حرف V مع التأكد أنك لا تكتب داخل الشات (Input)
+    if (e.code === 'KeyV' && !['INPUT', 'TEXTAREA'].includes(document.activeElement.tagName)) {
+        
+        e.preventDefault(); // منع كتابة حرف V في اللعبة
 
+        // دالة لمحاكاة ضغطة الزر الحقيقية
+        const press = (key, code, keyCode) => {
+            const opt = { 
+                key: key, 
+                code: code, 
+                keyCode: keyCode, 
+                which: keyCode, 
+                bubbles: true, 
+                cancelable: true,
+                view: window
+            };
+            window.dispatchEvent(new KeyboardEvent('keydown', opt));
+            window.dispatchEvent(new KeyboardEvent('keyup', opt));
+        };
+
+        // تنفيذ التتابع (Shift ثم Tab ثم Space)
+        // 1. ضغط Shift
+        press('Shift', 'ShiftLeft', 16);
+        
+        // 2. ضغط Tab بعد 20 ملي ثانية
+        setTimeout(() => {
+            press('Tab', 'Tab', 9);
+        }, 20); 
+
+        // 3. ضغط Space بعد 40 ملي ثانية
+        setTimeout(() => {
+            press(' ', 'Space', 32);
+        }, 40); 
+    }
+});
+</script>
 </body>
 </html>
